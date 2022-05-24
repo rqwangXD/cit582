@@ -15,7 +15,6 @@ def hash_collision(k):
     x_value = int.from_bytes(bytes.fromhex(x_hash_bytes), byteorder='big', signed=False)
     y = b'\x00'
     y_value = 0
-    print(x_hash_bytes, hashlib.sha256(y).hexdigest())
     while not last_k_bits_match(x_value,
                                 int.from_bytes(bytes.fromhex(hashlib.sha256(y).hexdigest()),
                                                byteorder='big',
