@@ -21,7 +21,7 @@ def hash_collision(k):
                                                signed=False),
                                 k):
         y_value += 1;
-        y = str(y_value).encode()
+        y = y_value.to_bytes((y_value.bit_length() + 7) // 8, byteorder='big')
 
     return( x, y )
 
