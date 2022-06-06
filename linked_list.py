@@ -30,7 +30,7 @@ def next_block(last_block):
     
 # append 5 blocks to the blockchain
 def app_five(block_list):
-    previous_block = M4BlockChain[-1]
+    previous_block = block_list[-1]
     for x in range(5):
         block_list.append(next_block(previous_block))
-        previous_block = M4BlockChain[-1]
+        previous_block = block_list[-1]
