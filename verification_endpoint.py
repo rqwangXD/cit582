@@ -14,9 +14,6 @@ def verify():
     #Check if signature is valid
     result = False #Should only be true if signature validates
     if content['payload']['platform'] == 'Ethereum':
-        print('dump', json.dumps(content['payload']))
-        print('signature', content['sig'])
-        print('res', eth_account.Account.recover_message(json.dumps(content['payload']),signature=content['sig'].hex()))
         result = (eth_account.Account.recover_message(json.dumps(content['payload']),signature=content['sig'].hex()) == content['payload']['pk'])
     elif content['payload']['platform'] == 'Algorand':
         result = algosdk.util.verify_bytes(json.dumps(content['payload']).encode('utf-8'),content['sig'],content['payload']['pk'])
