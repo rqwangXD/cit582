@@ -44,19 +44,19 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
         self.tokenA.approve(msg.sender, sell_quantity)
         log Process(4, sell_quantity)
         self.tokenA.transferFrom(msg.sender, self, sell_quantity)
-        log Process("transferFrom", sell_quantity)
+        log Process(5, sell_quantity)
         new_total_A_tokens: uint256 = self.tokenAQty + sell_quantity
-        log Process(5, new_total_A_tokens)
+        log Process(6, new_total_A_tokens)
         new_total_B_tokens: uint256 = self.invariant / new_total_A_tokens
-        log Process(6, new_total_B_tokens)
+        log Process(7, new_total_B_tokens)
         B_tokens_to_send: uint256 = self.tokenBQty - new_total_B_tokens
-        log Process(7, B_tokens_to_send)
-        self.tokenB.transfer(msg.sender, B_tokens_to_send)
         log Process(8, B_tokens_to_send)
+        self.tokenB.transfer(msg.sender, B_tokens_to_send)
+        log Process(9, B_tokens_to_send)
         self.tokenAQty = new_total_A_tokens
-        log Process(9, self.tokenAQty)
+        log Process(10, self.tokenAQty)
         self.tokenBQty = new_total_B_tokens
-        log Process(10, self.tokenBQty)
+        log Process(11, self.tokenBQty)
     else:
         self.tokenB.approve(msg.sender, sell_quantity)
         self.tokenB.transferFrom(msg.sender, self, sell_quantity)
