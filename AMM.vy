@@ -35,8 +35,8 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     assert sell_token == self.tokenA.address or sell_token == self.tokenB.address, "wrong token address"
     if sell_token == self.tokenA.address:
         self.tokenA.approve(msg.sender, sell_quantity)
-        assert 1 == 0, "after approve of A"
         self.tokenA.transferFrom(msg.sender, self, sell_quantity)
+        assert 1 == 0, "after transferFrom of A"
         new_total_A_tokens: uint256 = self.tokenAQty + sell_quantity
         new_total_B_tokens: uint256 = self.invariant / new_total_A_tokens
         B_tokens_to_send: uint256 = self.tokenBQty - new_total_B_tokens
