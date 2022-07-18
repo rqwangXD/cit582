@@ -9,7 +9,7 @@ tokenB: ERC20 #The ERC20 contract for tokenB
 owner: public(address) #The liquidity provider (the address that has the right to withdraw funds and close the contract)
 
 event Process:
-    example_str: String[100]
+    example_str: String[1000]
     example_val: uint256
 
 @external
