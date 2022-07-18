@@ -14,7 +14,7 @@ def get_token_address(token: uint256) -> address:
 		return self.tokenA.address
 	if token == 1:
 		return self.tokenB.address
-	return ZERO_ADDRESS	
+	return ZERO_ADDRESS
 
 # Sets the on chain market maker with its owner, and initial token quantities
 @external
@@ -34,7 +34,7 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
 def tradeTokens(sell_token: address, sell_quantity: uint256):
     assert sell_token == self.tokenA.address or sell_token == self.tokenB.address, "wrong token address"
     if sell_token == self.tokenA.address:
-        self.tokenA.approve(self, sell_quantity)
+	self.tokenA.approve(msg.sender, sell_quantity)
         self.tokenA.transferFrom(msg.sender, self, sell_quantity)
         new_total_A_tokens: uint256 = self.tokenAQty + sell_quantity
         new_total_B_tokens: uint256 = self.invariant / new_total_A_tokens
@@ -43,7 +43,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
         self.tokenAQty = new_total_A_tokens
         self.tokenBQty = new_total_B_tokens
     else:
-        self.tokenB.approve(self, sell_quantity)
+        self.tokenB.approve(msg.sender, sell_quantity)
         self.tokenB.transferFrom(msg.sender, self, sell_quantity)
         new_total_B_tokens: uint256 = self.tokenBQty + sell_quantity
         new_total_A_tokens: uint256 = self.invariant / new_total_B_tokens
