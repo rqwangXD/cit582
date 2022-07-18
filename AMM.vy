@@ -14,27 +14,27 @@ event Process:
 
 @external
 def get_token_address(token: uint256) -> address:
-	if token == 0:
-		return self.tokenA.address
-	if token == 1:
-		return self.tokenB.address
-	return ZERO_ADDRESS
+    if token == 0:
+        return self.tokenA.address
+    if token == 1:
+        return self.tokenB.address
+    return ZERO_ADDRESS
 
 # Sets the on chain market maker with its owner, and initial token quantities
 @external
 def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity: uint256, tokenB_quantity: uint256):
-	assert self.invariant == 0 #This ensures that liquidity can only be provided once
-	#Your code here
-	self.tokenAQty = tokenA_quantity
-	log Process(1, tokenA_quantity)
-	self.tokenBQty = tokenB_quantity
-	log Process(2, tokenB_quantity)
-	self.tokenA = ERC20(tokenA_addr)
-	self.tokenB = ERC20(tokenB_addr)
-	self.invariant = tokenA_quantity * tokenB_quantity
-	log Process(3, self.invariant)
-	self.owner = msg.sender
-	assert self.invariant > 0
+    assert self.invariant == 0 #This ensures that liquidity can only be provided once
+    #Your code here
+    self.tokenAQty = tokenA_quantity
+    log.Process(1, tokenA_quantity)
+    self.tokenBQty = tokenB_quantity
+    log.Process(2, tokenB_quantity)
+    self.tokenA = ERC20(tokenA_addr)
+    self.tokenB = ERC20(tokenB_addr)
+    self.invariant = tokenA_quantity * tokenB_quantity
+    log.Process(3, self.invariant)
+    self.owner = msg.sender
+    assert self.invariant > 0
 
 # Trades one token for the other
 @external
@@ -42,21 +42,21 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     assert sell_token == self.tokenA.address or sell_token == self.tokenB.address, "wrong token address"
     if sell_token == self.tokenA.address:
         self.tokenA.approve(msg.sender, sell_quantity)
-        log Process(4, sell_quantity)
+        log.Process(4, sell_quantity)
         self.tokenA.transferFrom(msg.sender, self, sell_quantity)
-        log Process(5, sell_quantity)
+        log.Process(5, sell_quantity)
         new_total_A_tokens: uint256 = self.tokenAQty + sell_quantity
-        log Process(6, new_total_A_tokens)
+        log.Process(6, new_total_A_tokens)
         new_total_B_tokens: uint256 = self.invariant / new_total_A_tokens
-        log Process(7, new_total_B_tokens)
+        log.Process(7, new_total_B_tokens)
         B_tokens_to_send: uint256 = self.tokenBQty - new_total_B_tokens
-        log Process(8, B_tokens_to_send)
+        log.Process(8, B_tokens_to_send)
         self.tokenB.transfer(msg.sender, B_tokens_to_send)
-        log Process(9, B_tokens_to_send)
+        log.Process(9, B_tokens_to_send)
         self.tokenAQty = new_total_A_tokens
-        log Process(10, self.tokenAQty)
+        log.Process(10, self.tokenAQty)
         self.tokenBQty = new_total_B_tokens
-        log Process(11, self.tokenBQty)
+        log.Process(11, self.tokenBQty)
     else:
         self.tokenB.approve(msg.sender, sell_quantity)
         self.tokenB.transferFrom(msg.sender, self, sell_quantity)
@@ -66,8 +66,6 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
         self.tokenA.transfer(msg.sender, A_tokens_to_send)
         self.tokenAQty = new_total_A_tokens
         self.tokenBQty = new_total_B_tokens
-    
-
 
 # Owner can withdraw their funds and destroy the market maker
 @external
